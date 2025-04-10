@@ -205,13 +205,13 @@ void ShournalkControl::markPaths(const Settings::StrLightSet& paths, int path_tp
 void ShournalkControl::markExtensions
 (const Settings::StrLightSet& extensions, int ext_type){
     StrLight extBuf;
-    const auto page_size = sysconf(_SC_PAGESIZE);
-    extBuf.reserve(page_size);
+    const StrLight::size_type BUF_SIZE = 4096;
+    extBuf.reserve(BUF_SIZE);
     for(const auto & str : extensions){
         // add extensions to a single long string
         // separated by slash. Flush, if bigger
-        // than PAGE_SIZE (unlikely)
-        if(extBuf.size() + str.size() + 1 > page_size){
+        // than BUF_SIZE (unlikely)
+        if(extBuf.size() + str.size() + 1 > BUF_SIZE){
             doMarkExtensions(extBuf, ext_type);
         }
         extBuf += str + '/';
